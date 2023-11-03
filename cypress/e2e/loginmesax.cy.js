@@ -22,9 +22,25 @@ describe('login', () => {
     })
 
     it('Redirecionamento para Cadastro de Vendedor', () => {
-    login("kaua@mail.com", "32451825Ka", "1234.")
+    login("kaua123132@mail.com", "32451825Ka", "1234.")
     cy.contains("Crie sua conta na MesaX").should('be.visible');
     })
+
+    it('login com email certa e senha erradada', () => {
+        login("kaua@gmail.com", "32451825Ka", "1234.")
+        cy.contains("Senha incorreta.").should('be.visible');
+    })
+
+    it('login com email errado e senha certa', () => {
+        login("kau@gmail.com", "32451825Kaua.", "1234.")
+        cy.contains("O usuário não foi encontrado ou não existe.").should('be.visible');
+    })
+
+    it('login com código errado', () => {
+        login("kaua@gmail.com", "32451825Kaua.", "12345.")    
+        cy.contains("Código de autenticação inválido.").should('be.visible');
+    }
+    );
 });
 
 function login(email, senha, codigo){
